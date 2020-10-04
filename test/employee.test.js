@@ -36,6 +36,22 @@ describe('Employee', () => {
             );
       
             expect(cb).toThrowError(err);
-        })
-    })
-})
+        });
+
+        it('should throw an error if not provided an email', () => {
+            const cb = () => new Employee("Josh", "engineer", 1);
+            const err = new Error(
+                "Expected parameter 'email' to be a non-empty string"
+            );
+            expect(cb).toThrow(err);
+        });
+
+        it('should throw an error if not provided a github profile', () => {
+            const cb = () => new Employee("Josh", "engineer", 1, "jjbidwell262@gmail.com");
+            const err = new Error(
+                "Expected parameter 'github' to be a non-empty string"
+            );
+            expect(cb).toThrow(err);
+        });
+    });
+});
