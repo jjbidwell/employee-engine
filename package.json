@@ -1,0 +1,23 @@
+{
+  "name": "employee-engine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjbidwell/employee-engine.git"
+  },
+  "author": "Joshua Bidwell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jjbidwell/employee-engine/issues"
+  },
+  "homepage": "https://github.com/jjbidwell/employee-engine#readme",
+  "dependencies": {
+    "inquirer": "^7.3.3",
+    "jest": "^26.4.2"
+  }
+}
