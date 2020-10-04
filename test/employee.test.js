@@ -11,6 +11,31 @@ describe('Employee', () => {
             expect(employee.id).toEqual(1);
             expect(employee.email).toEqual("jjbidwell262@gmail.com");
             expect(employee.github).toEqual("jjbidwell");
+        });
+
+        it('Should throw an error if not provided a name', () => {
+            const cb = () => new Employee();
+            const err = new Error(
+                "Expected parameter 'name' to be a non-empty string"
+            );
+            expect(cb).toThrow(err);
+        })
+
+        it('should throw an error if not provided a job title', () => {
+            const cb = () => new Employee("Josh");
+            const err = new Error(
+                "Expected parameter 'title' to be a non-empty string"
+            );
+            expect(cb).toThrow(err);
+        });
+
+        it('should throw an error if not provided an employee id', () => {
+            const cb = () =>  new Employee("Josh", "engineer");
+            const err = new Error(
+              "Expected parameter 'id' to be a non-negative number"
+            );
+      
+            expect(cb).toThrowError(err);
         })
     })
 })
