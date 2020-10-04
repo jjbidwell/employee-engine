@@ -1,17 +1,13 @@
 const fs = require('fs');
-const inquirer = requires('inquirer');
+const inquirer = require('inquirer');
 
-function Emloyee (name, title, id, email, github){
-    if (typeof name !== "string" || !name.trim().length) {
-        throw new Error("Expected parameter 'name' to be a non-empty string");
-      }
-    
-    if (typeof id !== "number" || isNaN(id) || age < 0) {
-        throw new Error("Expected parameter 'id' to be a non-negative number");
-      }
-    
- 
+function Employee (name, title, id, email, github){
+  this.name = name;
+  this.title = title;
+  this.id = id,
+  this.email = email;
+  this.github = github;
 }
 
 
-module.exports = Eployee;
+module.exports = Employee;
