@@ -26,5 +26,14 @@ function Employee (name, title, id, email, github){
   this.github = github;
 }
 
+function prompt(){
+  inquirer
+    .prompt([
+      
+    ]).then(answers => {
+      
+    })
+}
 
 module.exports = Employee;
+module.exports = promt;
