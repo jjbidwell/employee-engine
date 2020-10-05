@@ -1,6 +1,6 @@
 const Employee = require("../lib/employee");
 
-describe('Employee', () => {
+describe.skip('Employee', () => {
     describe('Initialization', () => {
 
         it("should create an object with a name and age if provided valid arguments", () => {
