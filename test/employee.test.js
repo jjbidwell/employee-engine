@@ -16,15 +16,7 @@ describe('Employee', () => {
                 "Expected parameter 'name' to be a non-empty string"
             );
             expect(cb).toThrow(err);
-        })
-
-        // it('should throw an error if not provided a job title', () => {
-        //     const cb = () => new Employee("Josh");
-        //     const err = new Error(
-        //         "Expected parameter 'title' to be a non-empty string"
-        //     );
-        //     expect(cb).toThrow(err);
-        // });
+        });
 
         it('should throw an error if not provided an employee id', () => {
             const cb = () =>  new Employee("Josh");
@@ -43,6 +35,14 @@ describe('Employee', () => {
             expect(cb).toThrow(err);
         });
 
+        // it('should throw an error if not provided a job title', () => {
+        //     const cb = () => new Employee("Josh");
+        //     const err = new Error(
+        //         "Expected parameter 'title' to be a non-empty string"
+        //     );
+        //     expect(cb).toThrow(err);
+        // });
+
         // it('should throw an error if not provided a github profile', () => {
         //     const cb = () => new Employee("Josh", "engineer", 1, "jjbidwell262@gmail.com");
         //     const err = new Error(
@@ -50,5 +50,37 @@ describe('Employee', () => {
         //     );
         //     expect(cb).toThrow(err);
         // });
+    });
+
+    describe('getName', () => {
+        it('should return the inputted name', () => {
+            const josh = new Employee("Josh", 1, "jjbidwell262@gmail.com")
+
+            expect(josh.getName()).toEqual('Josh');
+        });
+    });
+
+    describe('getId', () => {
+        it('should return the inputted id', () => {
+            const josh = new Employee("Josh", 1, "jjbidwell262@gmail.com")
+
+            expect(josh.getId()).toEqual(1);
+        });
+    });
+
+    describe('getEmail', () => {
+        it('should return the inputted Email', () => {
+            const josh = new Employee("Josh", 1, "jjbidwell262@gmail.com")
+
+            expect(josh.getEmail()).toEqual('jjbidwell262@gmail.com');
+        });
+    });
+
+    describe('getRole', () => {
+        it('should return "Employee"', () => {
+            const josh = new Employee("Josh", 1, "jjbidwell262@gmail.com")
+
+            expect(josh.getRole()).toEqual('Employee');
+        });
     });
 });
