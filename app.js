@@ -28,7 +28,13 @@ inquirer
         }
     ]).then(answers => {
         number = answers.number;
-        return whatType();
+        fs.readFile(__dirname + '/templates/head.html', (err, data) => {
+            fs.writeFile('./output/index.html', data, () => {
+                if (err) throw err;
+                console.log('test');
+            })
+        })
+        //return whatType();
     });
 
 function whatType(){    
