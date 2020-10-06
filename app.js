@@ -6,6 +6,7 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 let number = 0;
 let count = 1;
+let type;
 let employeeArray = [];
 
 inquirer
@@ -17,8 +18,28 @@ inquirer
         }
     ]).then(answers => {
         number = answers.number;
-        employees();
+        whatType();
     });
+
+function whatType(){    
+    inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'position',
+                message: `What position does employee #${count} hold?`,
+                choices: [
+                    "Engineer",
+                    "Intern",
+                    "Manager"
+                ]
+            }
+        ]).then(answer => {
+            type = answer.position;
+            console.log(type);
+            employees();
+        })
+}
 
 function employees(){
 
@@ -30,10 +51,10 @@ function employees(){
                 name: "name"
             },
         ]).then((answers) => {
-            employeeArray.push(new Engineer(answers.name, count, 'jjbidwell262@gmail.com', 'jjbidwell'));
+            //employeeArray.push(new Engineer(answers.name, count, 'jjbidwell262@gmail.com', 'jjbidwell'));
             if(count < number){
                 count++;
-                employees();
+                whatType();
             } else {
             console.log(number + ' people logged!');
             console.log(employeeArray);
