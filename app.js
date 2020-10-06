@@ -1,13 +1,15 @@
+const fs = require('fs');
+const inquirer = require('inquirer');
+
 const Intern = require('./lib/intern');
 const Engineer = require('./lib/engineer');
 const Manager = require('./lib/manager');
 
-const engineerHTML = require('./templates/templates');
+// const engineerHTML = require('./templates/templates');
 // const internHTML = require('./templates/templates');
 // const managerHTML = require('./templates/templates');
 
-const fs = require('fs');
-const inquirer = require('inquirer');
+
 let number = 0;
 let count = 1;
 let job;
@@ -15,7 +17,7 @@ let employeeArray = [];
 
 // console.log(internHTML);
 // console.log(managerHTML);
-console.log(engineerHTML);
+// console.log(engineerHTML);
 
 inquirer
     .prompt([
@@ -26,7 +28,7 @@ inquirer
         }
     ]).then(answers => {
         number = answers.number;
-        whatType();
+        return whatType();
     });
 
 function whatType(){    
@@ -45,7 +47,7 @@ function whatType(){
             }
         ]).then(answer => {
             job = answer.position;
-            questions();
+            return questions();
         })
 }
 
@@ -73,7 +75,7 @@ function questions() {
                 employeeArray.push(new Engineer(answers.name, count, answers.email, answers.github));
                 if(count < number){
                     count++;
-                    whatType();
+                    return whatType();
                 } else {
                     console.log(number + ' people logged!');
                     console.log(employeeArray);
@@ -129,7 +131,7 @@ function questions() {
                 employeeArray.push(new Manager(answers.name, count, answers.email, answers.office));
                 if(count < number){
                     count++;
-                    whatType();
+                    return whatType();
                 } else {
                     console.log(number + ' people logged!');
                     console.log(employeeArray);
