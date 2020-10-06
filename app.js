@@ -21,6 +21,7 @@ inquirer
     });
 
 function whatType(){    
+    console.log(`=====Employee #${count}=====`)
     inquirer
         .prompt([
             {
