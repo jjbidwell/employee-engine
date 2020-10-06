@@ -1,7 +1,6 @@
-const Employee = require('./lib/employee')
 const Intern = require('./lib/intern');
 const Engineer = require('./lib/engineer');
-const Mannager = require('./lib/manager');
+const Manager = require('./lib/manager');
 const fs = require('fs');
 const inquirer = require('inquirer');
 let number = 0;
@@ -36,20 +35,9 @@ function whatType(){
             }
         ]).then(answer => {
             job = answer.position;
-            console.log(type);
-            employees();
+            questions();
         })
 }
-
-function employees(){
-
-questions()
-    .then((answers) => {
-
-      //employeeArray.push(new Engineer(answers.name, count, 'jjbidwell262@gmail.com', 'jjbidwell'));
-
-        });
-} 
 
 
 function questions() {
@@ -80,7 +68,7 @@ function questions() {
                     console.log(number + ' people logged!');
                     console.log(employeeArray);
                 }
-            })
+            });
     } else if(job === "Intern"){
         inquirer
             .prompt([
@@ -99,7 +87,16 @@ function questions() {
                     message: "Please enter the intern's current school",
                     name: "school"
                 }
-            ])
+            ]).then((answers) => {
+                employeeArray.push(new Intern(answers.name, count, answers.email, answers.school));
+                if(count < number){
+                    count++;
+                    whatType();
+                } else {
+                    console.log(number + ' people logged!');
+                    console.log(employeeArray);
+                }
+            });
     } else if(job === "Manager"){
         inquirer
             .prompt([
@@ -116,8 +113,17 @@ function questions() {
                 {
                     type: "number",
                     message: "Please enter the manager's office number",
-                    name: ""
+                    name: "office"
                 }
-            ])
+            ]).then((answers) => {
+                employeeArray.push(new Manager(answers.name, count, answers.email, answers.office));
+                if(count < number){
+                    count++;
+                    whatType();
+                } else {
+                    console.log(number + ' people logged!');
+                    console.log(employeeArray);
+                }
+            });
     }
 }
