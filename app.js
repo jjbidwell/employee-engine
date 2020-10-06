@@ -123,6 +123,11 @@ function questions() {
                 } else {
                     console.log(number + ' people logged!');
                     console.log(employeeArray);
+                    fs.writeFile('./output/index.html', `<p> ${JSON.stringify(employeeArray, null, 5)} </p>`, (err) => {
+                        if (err){
+                            console.log(err);
+                        }
+                    })
                 }
             });
     }
