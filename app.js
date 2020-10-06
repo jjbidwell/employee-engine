@@ -1,12 +1,21 @@
 const Intern = require('./lib/intern');
 const Engineer = require('./lib/engineer');
 const Manager = require('./lib/manager');
+
+const engineerHTML = require('./templates/templates');
+// const internHTML = require('./templates/templates');
+// const managerHTML = require('./templates/templates');
+
 const fs = require('fs');
 const inquirer = require('inquirer');
 let number = 0;
 let count = 1;
 let job;
 let employeeArray = [];
+
+// console.log(internHTML);
+// console.log(managerHTML);
+console.log(engineerHTML);
 
 inquirer
     .prompt([
