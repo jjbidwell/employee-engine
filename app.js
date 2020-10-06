@@ -6,6 +6,7 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 let number = 0;
 let count = 1;
+let employeeArray = [];
 
 inquirer
     .prompt([
@@ -29,13 +30,13 @@ function employees(){
                 name: "name"
             },
         ]).then((answers) => {
+            employeeArray.push(new Engineer(answers.name, count, 'jjbidwell262@gmail.com', 'jjbidwell'));
             if(count < number){
-                console.log(count);
                 count++;
                 employees();
             } else {
             console.log(number + ' people logged!');
-            console.log(answers);
+            console.log(employeeArray);
             }
         });
 } 
