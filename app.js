@@ -4,22 +4,38 @@ const Engineer = require('./lib/engineer');
 const Mannager = require('./lib/manager');
 const fs = require('fs');
 const inquirer = require('inquirer');
-
-let number; 
+let number = 0;
+let count = 1;
 
 inquirer
     .prompt([
         {
             type: "number",
-            message: "How many employees would you like to process?",
+            message: "How many employees would you like to enter?",
             name: "number"
         }
     ]).then(answers => {
         number = answers.number;
-    }).then(() => {
-        console.log(number);
-    })
+        employees();
+    });
 
+function employees(){
 
-
-
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "What is the employee's name?",
+                name: "name"
+            },
+        ]).then((answers) => {
+            if(count < number){
+                console.log(count);
+                count++;
+                employees();
+            } else {
+            console.log(number + ' people logged!');
+            console.log(answers);
+            }
+        });
+} 
