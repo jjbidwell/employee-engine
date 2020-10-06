@@ -6,7 +6,7 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 let number = 0;
 let count = 1;
-let type;
+let job;
 let employeeArray = [];
 
 inquirer
@@ -35,7 +35,7 @@ function whatType(){
                 ]
             }
         ]).then(answer => {
-            type = answer.position;
+            job = answer.position;
             console.log(type);
             employees();
         })
@@ -43,21 +43,81 @@ function whatType(){
 
 function employees(){
 
-    inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "What is the employee's name?",
-                name: "name"
-            },
-        ]).then((answers) => {
-            //employeeArray.push(new Engineer(answers.name, count, 'jjbidwell262@gmail.com', 'jjbidwell'));
-            if(count < number){
-                count++;
-                whatType();
-            } else {
-            console.log(number + ' people logged!');
-            console.log(employeeArray);
-            }
+questions()
+    .then((answers) => {
+
+      //employeeArray.push(new Engineer(answers.name, count, 'jjbidwell262@gmail.com', 'jjbidwell'));
+
         });
 } 
+
+
+function questions() {
+    if(job === "Engineer"){
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "Please enter the engineer's name",
+                    name: "name"
+                },
+                {
+                    type: "input",
+                    message: "Please enter the engineer's email",
+                    name: "email"
+                },
+                {
+                    type: "input",
+                    message: "Please enter the engineer's GitHub username",
+                    name: "github"
+                }
+            ]).then((answers) => {
+                employeeArray.push(new Engineer(answers.name, count, answers.email, answers.github));
+                if(count < number){
+                    count++;
+                    whatType();
+                } else {
+                    console.log(number + ' people logged!');
+                    console.log(employeeArray);
+                }
+            })
+    } else if(job === "Intern"){
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "Please enter the intern's name",
+                    name: "name"
+                },
+                {
+                    type: "input",
+                    message: "Please enter the intern's email",
+                    name: "email"
+                },
+                {
+                    type: "input",
+                    message: "Please enter the intern's current school",
+                    name: "school"
+                }
+            ])
+    } else if(job === "Manager"){
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "Please enter the manager's name",
+                    name: "name"
+                },
+                {
+                    type: "input",
+                    message: "Please enter the manager's email",
+                    name: "email"
+                },
+                {
+                    type: "number",
+                    message: "Please enter the manager's office number",
+                    name: ""
+                }
+            ])
+    }
+}
