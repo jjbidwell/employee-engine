@@ -1,86 +1,71 @@
 const Employee = require("../lib/employee");
 
-describe.skip('Employee', () => {
-    describe('Initialization', () => {
+test("Can instantiate Employee instance", () => {
+  const e = new Employee('josh', 1, 'test');
+  expect(typeof(e)).toBe("object");
+});
 
-        it("should create an object with a name and age if provided valid arguments", () => {
-            const employee = new Employee('Josh', 1, "jjbidwell262@gmail.com");
-            expect(employee.name).toEqual("Josh");
-            expect(employee.id).toEqual(1);
-            expect(employee.email).toEqual("jjbidwell262@gmail.com");
+test('Should throw an error if not provided a name', () => {
+    const e = () => new Employee();
+    const err = new Error(
+        "Expected parameter 'name' to be a non-empty string"
+        );
+        expect(e).toThrow(err);
         });
 
-        it('Should throw an error if not provided a name', () => {
-            const cb = () => new Employee();
-            const err = new Error(
-                "Expected parameter 'name' to be a non-empty string"
-            );
-            expect(cb).toThrow(err);
-        });
+test('should throw an error if not provided an employee id', () => {
+    const e = () => new Employee("Josh");
+    const err = new Error(
+      "Expected parameter 'id' to be a non-negative number"
+    );
+    expect(e).toThrow(err);
+});
 
-        it('should throw an error if not provided an employee id', () => {
-            const cb = () =>  new Employee("Josh");
-            const err = new Error(
-              "Expected parameter 'id' to be a non-negative number"
-            );
-      
-            expect(cb).toThrowError(err);
-        });
-
-        it('should throw an error if not provided an email', () => {
-            const cb = () => new Employee("Josh", 1);
-            const err = new Error(
-                "Expected parameter 'email' to be a non-empty string"
-            );
-            expect(cb).toThrow(err);
-        });
-
-        // it('should throw an error if not provided a job title', () => {
-        //     const cb = () => new Employee("Josh");
-        //     const err = new Error(
-        //         "Expected parameter 'title' to be a non-empty string"
-        //     );
-        //     expect(cb).toThrow(err);
-        // });
-
-        // it('should throw an error if not provided a github profile', () => {
-        //     const cb = () => new Employee("Josh", "engineer", 1, "jjbidwell262@gmail.com");
-        //     const err = new Error(
-        //         "Expected parameter 'github' to be a non-empty string"
-        //     );
-        //     expect(cb).toThrow(err);
-        // });
+test('should throw an error if not provided an email', () => {
+    const e = () => new Employee("Josh", 1);
+    const err = new Error(
+        "Expected parameter 'email' to be a non-empty string"
+    );
+    expect(e).toThrow(err);
     });
+test("Can set name via constructor arguments", () => {
+  const name = "Alice";
+  const e = new Employee(name, 1, 'test');
+  expect(e.name).toBe(name);
+});
 
-    describe('getName', () => {
-        it('should return the inputted name', () => {
-            const josh = new Employee("Josh", 1, "jjbidwell262@gmail.com")
+test("Can set id via constructor argument", () => {
+  const testValue = 100;
+  const e = new Employee("Foo", testValue, "test");
+  expect(e.id).toBe(testValue);
+});
 
-            expect(josh.getName()).toEqual('Josh');
-        });
-    });
+test("Can set email via constructor argument", () => {
+  const testValue = "test@test.com";
+  const e = new Employee("Foo", 1, testValue);
+  expect(e.email).toBe(testValue);
+});
 
-    describe('getId', () => {
-        it('should return the inputted id', () => {
-            const josh = new Employee("Josh", 1, "jjbidwell262@gmail.com")
+test("Can get name via getName()", () => {
+  const testValue = "Alice";
+  const e = new Employee(testValue, 1, 'test');
+  expect(e.getName()).toBe(testValue);
+});
 
-            expect(josh.getId()).toEqual(1);
-        });
-    });
+test("Can get id via getId()", () => {
+  const testValue = 100;
+  const e = new Employee("Foo", testValue, 'test');
+  expect(e.getId()).toBe(testValue);
+});
 
-    describe('getEmail', () => {
-        it('should return the inputted Email', () => {
-            const josh = new Employee("Josh", 1, "jjbidwell262@gmail.com")
+test("Can get email via getEmail()", () => {
+  const testValue = "test@test.com";
+  const e = new Employee("Foo", 1, testValue);
+  expect(e.getEmail()).toBe(testValue);
+});
 
-            expect(josh.getEmail()).toEqual('jjbidwell262@gmail.com');
-        });
-    });
-
-    describe('getRole', () => {
-        it('should return "Employee"', () => {
-            const josh = new Employee("Josh", 1, "jjbidwell262@gmail.com")
-
-            expect(josh.getRole()).toEqual('Employee');
-        });
-    });
+test("getRole() should return \"Employee\"", () => {
+  const testValue = "Employee";
+  const e = new Employee("Alice", 1, "test@test.com");
+  expect(e.getRole()).toBe(testValue);
 });
