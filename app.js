@@ -191,5 +191,5 @@ function questions() {
                 if (err) throw err;
             });
         });
-    }, employeeArray.length * 2000);
+    }, employeeArray.length * 3000);
 }
