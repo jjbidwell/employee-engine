@@ -6,16 +6,24 @@ const Engineer = require('./lib/engineer');
 const Manager = require('./lib/manager');
 const { type } = require('os');
 
-let headHTML;
-let engineerHTML;
-let internHTML;
+let renderedHTML;
+let finalHTML;
 
 let number = 0;
 let count = 1;
 let job;
 let employeeArray = [];
 
+let employeeName;
+let employeeEmail;
+let employeeID;
+let employeeGithub;
+let employeeOffice;
+let employeeSchool;
 
+fs.unlink('./output/index.html', (err) => {
+    if (err) throw err;
+})
 
 inquirer
     .prompt([
@@ -35,15 +43,15 @@ inquirer
             name: "office"
         }
     ]).then(manager => {
-        employeeArray.push(new Manager(manager.name, count, manager.email, manager.office));
-        fs.readFile(__dirname + '/templates/head.html', (err, data) => {
-            headHTML = data.toString();
-            let finalHead = headHTML.replace('{manager-name}', manager.name).replace('{id}', count).replace(/{email}/g, manager.email).replace('{office-number}', manager.office);
-            fs.writeFile('./output/index.html', finalHead, () => {
-                if (err) throw err;
-            })
-            count++;
-        })
+        let newManager = new Manager(manager.name, count, manager.email, manager.office)
+        employeeArray.push(newManager);
+        // fs.readFile(__dirname + '/templates/head.html', (err, data) => {
+        //     headHTML = data.toString();
+        //     let finalHead = headHTML.replace('{manager-name}', manager.name).replace('{id}', count).replace(/{email}/g, manager.email).replace('{office-number}', manager.office);
+        //     fs.writeFile('./output/index.html', finalHead, () => {
+        //         if (err) throw err;
+        //     })
+        // })
         inquirer
             .prompt([
                 {
@@ -53,13 +61,20 @@ inquirer
                 }
             ]).then(answers => {
                 number = answers.number;
-                return whatType();
+                if (number < 1 || isNaN(number)){
+                    return render();
+                } else {
+                    return whatType();
+                }
+
             });
         })
 
 
 
 function whatType(){    
+    count++;
+    console.log(count)
     console.log(`=====Employee #${count - 1}=====`)
     inquirer
         .prompt([
@@ -99,13 +114,19 @@ function questions() {
                     name: "github"
                 }
             ]).then((answers) => {
-                employeeArray.push(new Engineer(answers.name, count, answers.email, answers.github));
+                let newEngineer = new Engineer(answers.name, count, answers.email, answers.github)
+                employeeArray.push(newEngineer);
                 if(count < number + 1){
-                    count++;
+                    // fs.readFile(__dirname + '/templates/engineer.html', (err, data) => {
+                    //     engineerHTML = data.toString();
+                    //     let finalEngineer = engineerHTML.replace('{engineer-name}', answers.name).replace('{id}', count).replace(/{email}/g, answers.email).replace(/{gitgub}/g, answers.github);
+                    //     fs.appendFile('./output/index.html', finalEngineer, () => {
+                    //         if (err) throw err;
+                    //     })
+                    // })
                     return whatType();
                 } else {
-                    console.log(number + ' people logged!');
-                    console.log(employeeArray);
+                   return render();
                 }
             });
     } else if(job === "Intern"){
@@ -127,58 +148,75 @@ function questions() {
                     name: "school"
                 }
             ]).then((answers) => {
-                employeeArray.push(new Intern(answers.name, count, answers.email, answers.school));
+                let newIntern = new Intern(answers.name, count, answers.email, answers.school)
+                employeeArray.push(newIntern);
                 if(count < number + 1){
-                    count++;
-                    whatType();
+                    // fs.readFile(__dirname + '/templates/intern.html', (err, data) => {
+                    //     internHTML = data.toString();
+                    //     let finalIntern = internHTML.replace('{intern-name}', answers.name).replace('{id}', count).replace(/{email}/g, answers.email).replace('{school}', answers.school);
+                    //     fs.appendFile('./output/index.html', finalIntern, () => {
+                    //         if (err) throw err;
+                    //     })
+                    // })
+                    
+                    return whatType();
                 } else {
-                    console.log(number + ' people logged!');
-                    render();
-                    //console.log(employeeArray.length);
+                    return render();
                 }
             });
     } 
-    // else if(job === "Manager"){
-    //     inquirer
-    //         .prompt([
-    //             {
-    //                 type: "input",
-    //                 message: "Please enter the manager's name",
-    //                 name: "name"
-    //             },
-    //             {
-    //                 type: "input",
-    //                 message: "Please enter the manager's email",
-    //                 name: "email"
-    //             },
-    //             {
-    //                 type: "number",
-    //                 message: "Please enter the manager's office number",
-    //                 name: "office"
-    //             }
-//             ]).then((answers) => {
-//                 employeeArray.push(new Manager(answers.name, count, answers.email, answers.office));
-//                 if(count < number){
-//                     count++;
-//                     return whatType();
-//                 } else {
-//                     console.log(number + ' people logged!');
-//                     console.log(employeeArray);
-//                     fs.writeFile('./output/index.html', `<p> ${JSON.stringify(employeeArray, null, 5)} </p>`, (err) => {
-//                         if (err){
-//                             console.log(err);
-//                         }
-//                     })
-//                 }
-//             });
-//     }
- }
+}
+
 
 
  function render(){
      for (let i = 0; i < employeeArray.length; i++){
-        console.log("============================")
-        console.log(employeeArray[i].officeNumber);
+
+         if(employeeArray[i].officeNumber){
+            let managerName = employeeArray[i].name;
+            let managerEmail = employeeArray[i].email;
+            let managerID = employeeArray[i].id;
+            let managerOffice = employeeArray[i].officeNumber;
+            fs.readFile(__dirname + '/templates/head.html', (err, data) => {
+                renderedHTML = data.toString();
+                finalHTML = renderedHTML.replace('{mgmt-name}', managerName).replace('{mgmt-id}', managerID).replace(/{mgmt-email}/g, managerEmail).replace('{office-number}', managerOffice);
+                fs.writeFile('./output/index.html', finalHTML, () => {
+                    if (err) throw err;
+                })
+            })
+         }else if (employeeArray[i].github){
+            let engineerName = employeeArray[i].name;
+            let engineerEmail = employeeArray[i].email;
+            let engineerID = employeeArray[i].id;
+            let engineerGithub = employeeArray[i].github;
+            fs.readFile(__dirname + '/templates/engineer.html', (err, data) => {
+                renderedHTML = data.toString();
+                finalHTML = renderedHTML.replace('{eng-name}', engineerName).replace('{eng-id}', engineerID).replace(/{eng-email}/g, engineerEmail).replace(/{gitgub}/g, engineerGithub);
+                fs.appendFile('./output/index.html', finalHTML, () => {
+                    if (err) throw err;
+                })
+            })
+         }  else if(employeeArray[i].school){
+            let internName = employeeArray[i].name;
+            let internEmail = employeeArray[i].email;
+            let internID = employeeArray[i].id;
+            let internSchool = employeeArray[i].school;
+            fs.readFile(__dirname + '/templates/intern.html', (err, data) => {
+                renderedHTML = data.toString();
+                finalHTML = renderedHTML.replace('{int-name}', internName).replace('{int-id}', internID).replace(/{int-email}/g, internEmail).replace('{school}', internSchool);
+                fs.appendFile('./output/index.html', finalHTML, () => {
+                    if (err) throw err;
+                })
+            })
+         }
+         
      }
+
+    console.log(number + ' people logged!');
+    fs.readFile(__dirname + '/templates/foot.html', (err, data) => {
+        fs.appendFile('./output/index.html', data, () => {
+            if (err) throw err;
+        })
+    })
  }
      
