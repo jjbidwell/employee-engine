@@ -1,5 +1,9 @@
-.employee, .card{
-    color: red;
+h1{
+    font-size: 32px;
+    color: slategrey;
+}
+
+.card{
     width: 18rem;
-    margin: 3% 0px;
+    margin: 5% 0px;
 }
