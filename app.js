@@ -36,18 +36,13 @@ inquirer
         }
     ]).then(manager => {
         employeeArray.push(new Manager(manager.name, count, manager.email, manager.office));
-        
-
-        count++;
         fs.readFile(__dirname + '/templates/head.html', (err, data) => {
             headHTML = data.toString();
-            console.log(headHTML);
-            headHTML.replace('{manager-name}', manager.name);
-            headHTML.replace('{id}', count);
-            fs.writeFile('./output/index.html', data, () => {
+            let finalHead = headHTML.replace('{manager-name}', manager.name).replace('{id}', count).replace(/{email}/g, manager.email).replace('{office-number}', manager.office);
+            fs.writeFile('./output/index.html', finalHead, () => {
                 if (err) throw err;
             })
-            //console.log(data);
+            count++;
         })
         inquirer
             .prompt([
