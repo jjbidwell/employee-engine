@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+let managerName = "";
+const headHTML = 
+`<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,14 +12,6 @@
 </head>
 <body>
 
-    <div id="manager" class="employee card">
-        <div class="text-center text-light bg-info card-body">
-          <h2 class="card-title">{manager-name}</h2>
-          <h3 class="card-title"><i class="fas fa-user-tie"></i>Manager</h3>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Employee ID: {id}</li>
-          <li class="list-group-item">Email: <a href="mailto:jjbidwell262@gmail.com" target="_blank">{email}</a></li>
-          <li class="list-group-item">Office Number: {office-number}</li>
-        </ul>
-      </div>
+    <h1>${managerName}</h1>` 
+
+module.exports = headHTML;

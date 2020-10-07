@@ -4,51 +4,77 @@ const inquirer = require('inquirer');
 const Intern = require('./lib/intern');
 const Engineer = require('./lib/engineer');
 const Manager = require('./lib/manager');
+const { type } = require('os');
 
-// const engineerHTML = require('./templates/templates');
-// const internHTML = require('./templates/templates');
-// const managerHTML = require('./templates/templates');
-
+let headHTML;
+let engineerHTML;
+let internHTML;
 
 let number = 0;
 let count = 1;
 let job;
 let employeeArray = [];
 
-// console.log(internHTML);
-// console.log(managerHTML);
-// console.log(engineerHTML);
+
 
 inquirer
     .prompt([
         {
+            type: "input",
+            message: "Please enter the project manager's name",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "Please enter the project manager's email",
+            name: "email"
+        },
+        {
             type: "number",
-            message: "How many employees would you like to enter?",
-            name: "number"
+            message: "Please enter the project manager's office number",
+            name: "office"
         }
-    ]).then(answers => {
-        number = answers.number;
+    ]).then(manager => {
+        employeeArray.push(new Manager(manager.name, count, manager.email, manager.office));
+        
+
+        count++;
         fs.readFile(__dirname + '/templates/head.html', (err, data) => {
+            headHTML = data.toString();
+            console.log(headHTML);
+            headHTML.replace('{manager-name}', manager.name);
+            headHTML.replace('{id}', count);
             fs.writeFile('./output/index.html', data, () => {
                 if (err) throw err;
-                console.log('test');
             })
+            //console.log(data);
         })
-        //return whatType();
-    });
+        inquirer
+            .prompt([
+                {
+                    type: "number",
+                    message: "How many employees would you like to enter?",
+                    name: "number"
+                }
+            ]).then(answers => {
+                number = answers.number;
+                return whatType();
+            });
+        })
+
+
 
 function whatType(){    
-    console.log(`=====Employee #${count}=====`)
+    console.log(`=====Employee #${count - 1}=====`)
     inquirer
         .prompt([
             {
                 type: 'list',
                 name: 'position',
-                message: `What position does employee #${count} hold?`,
+                message: `What position does employee #${count - 1} hold?`,
                 choices: [
                     "Engineer",
-                    "Intern",
-                    "Manager"
+                    "Intern"
                 ]
             }
         ]).then(answer => {
@@ -79,7 +105,7 @@ function questions() {
                 }
             ]).then((answers) => {
                 employeeArray.push(new Engineer(answers.name, count, answers.email, answers.github));
-                if(count < number){
+                if(count < number + 1){
                     count++;
                     return whatType();
                 } else {
@@ -107,46 +133,57 @@ function questions() {
                 }
             ]).then((answers) => {
                 employeeArray.push(new Intern(answers.name, count, answers.email, answers.school));
-                if(count < number){
+                if(count < number + 1){
                     count++;
                     whatType();
                 } else {
                     console.log(number + ' people logged!');
-                    console.log(employeeArray);
+                    render();
+                    //console.log(employeeArray.length);
                 }
             });
-    } else if(job === "Manager"){
-        inquirer
-            .prompt([
-                {
-                    type: "input",
-                    message: "Please enter the manager's name",
-                    name: "name"
-                },
-                {
-                    type: "input",
-                    message: "Please enter the manager's email",
-                    name: "email"
-                },
-                {
-                    type: "number",
-                    message: "Please enter the manager's office number",
-                    name: "office"
-                }
-            ]).then((answers) => {
-                employeeArray.push(new Manager(answers.name, count, answers.email, answers.office));
-                if(count < number){
-                    count++;
-                    return whatType();
-                } else {
-                    console.log(number + ' people logged!');
-                    console.log(employeeArray);
-                    fs.writeFile('./output/index.html', `<p> ${JSON.stringify(employeeArray, null, 5)} </p>`, (err) => {
-                        if (err){
-                            console.log(err);
-                        }
-                    })
-                }
-            });
-    }
-}
+    } 
+    // else if(job === "Manager"){
+    //     inquirer
+    //         .prompt([
+    //             {
+    //                 type: "input",
+    //                 message: "Please enter the manager's name",
+    //                 name: "name"
+    //             },
+    //             {
+    //                 type: "input",
+    //                 message: "Please enter the manager's email",
+    //                 name: "email"
+    //             },
+    //             {
+    //                 type: "number",
+    //                 message: "Please enter the manager's office number",
+    //                 name: "office"
+    //             }
+//             ]).then((answers) => {
+//                 employeeArray.push(new Manager(answers.name, count, answers.email, answers.office));
+//                 if(count < number){
+//                     count++;
+//                     return whatType();
+//                 } else {
+//                     console.log(number + ' people logged!');
+//                     console.log(employeeArray);
+//                     fs.writeFile('./output/index.html', `<p> ${JSON.stringify(employeeArray, null, 5)} </p>`, (err) => {
+//                         if (err){
+//                             console.log(err);
+//                         }
+//                     })
+//                 }
+//             });
+//     }
+ }
+
+
+ function render(){
+     for (let i = 0; i < employeeArray.length; i++){
+        console.log("============================")
+        console.log(employeeArray[i].officeNumber);
+     }
+ }
+     
